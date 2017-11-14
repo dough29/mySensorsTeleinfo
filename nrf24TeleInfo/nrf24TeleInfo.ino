@@ -1,5 +1,5 @@
 // Activation des messages de debug sur le moniteur série
-#define MY_DEBUG
+//#define MY_DEBUG
 
 // Activation du type de radio utilisé
 #define MY_RADIO_NRF24
@@ -8,13 +8,13 @@
 
 #include <MySensors.h>
 
-#define SKETCH_NAME "Téléinfo EDF"
+#define SKETCH_NAME "TeleinfoEDF"
 #define SKETCH_MAJOR_VER "1"
 #define SKETCH_MINOR_VER "0"
 
 #include "teleInfo.h"
 
-#define TI_RX 4
+#define TI_RX A2
 teleInfo TI(TI_RX);
 
 #define SLEEP_TIME 10000UL
@@ -209,11 +209,8 @@ bool compareTI(const __FlashStringHelper *label, char *value, char *last, MyMess
 }
 
 void loop() {
-}
-
-void receive(const MyMessage &message) {
 	teleInfo_t currentTI;
-
+	
 	// Lecture Téléinfo
 	currentTI = TI.get();
 	
@@ -254,5 +251,8 @@ void receive(const MyMessage &message) {
 		compareTI(F("HHPHC"), currentTI.HHPHC, last.HHPHC, msgVAR4, CHILD_ID_HHPHC);
 	}
 	
-	wait(SLEEP_TIME);
+	delay(SLEEP_TIME);
+}
+
+void receive(const MyMessage &message) {
 }
